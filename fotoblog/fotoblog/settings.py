@@ -90,18 +90,28 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
+    #{'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        # MP avec 8 caracteres au moins
+        'OPTIONS' : {
+            'min_length': 8,
+        }
     },
+    # verifier si le  MP contient au moins une lettre
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'authentication.validators.ContainsLetterValidator',
     },
+    # verifier si le  MP contient au moins une chiffre
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'authentication.validators.ContainsNumberValidator',
     },
+    #{
+     #   'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    #},
+    #{
+     #   'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    #},
 ]
 
 
@@ -130,3 +140,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL ='authentication.User'
 # Page par defaut en cas de non authentification
 LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'home'

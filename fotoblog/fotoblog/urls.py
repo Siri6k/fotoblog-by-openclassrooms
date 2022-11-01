@@ -14,4 +14,6 @@ urlpatterns = [
     # Page d'accueil
     path('home/', blog.views.home,
          name='home'),
+    #inscription
+    path('signup/', authentication.views.signup_page, name='signup'),
 ]
