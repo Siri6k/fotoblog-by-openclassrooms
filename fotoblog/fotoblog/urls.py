@@ -22,6 +22,9 @@ urlpatterns = [
     path('photo/upload/', blog.views.photo_upload, name="photo_upload"),
     # changer la photo de profil
     path('change/profile/photo/', authentication.views.upload_profile_photo, name="change_profile_photo"),
+    #ajouter un billet de blog
+    path('blog/create/',
+         blog.views.blog_and_photo_upload, name='blog-create')
 ]
 # ajoutez les medias
 if settings.DEBUG:

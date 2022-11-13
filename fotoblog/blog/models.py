@@ -8,7 +8,7 @@ class Photo(models.Model):
     # une photo est post par un user ou uplaoader
     uploader = models.ForeignKey(settings.AUTH_USER_MODEL,
                                  on_delete=models.CASCADE)
-    date_cteated = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True)
 
 class Blog(models.Model):
     #une photo sera lié a chaque post si possble
