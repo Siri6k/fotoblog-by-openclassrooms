@@ -1,9 +1,11 @@
 
 from django.contrib import admin
 from django.urls import path
-
+from django.conf import settings
 import authentication.views
 import  blog.views
+
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,4 +18,13 @@ urlpatterns = [
          name='home'),
     #inscription
     path('signup/', authentication.views.signup_page, name='signup'),
+    # Publiez une photo
+    path('photo/upload/', blog.views.photo_upload, name="photo_upload"),
+    # changer la photo de profil
+    path('change/profile/photo/', authentication.views.upload_profile_photo, name="change_profile_photo"),
 ]
+# ajoutez les medias
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root =settings.MEDIA_ROOT)

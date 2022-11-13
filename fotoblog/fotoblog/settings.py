@@ -136,9 +136,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+# utiliser le modele utillisateur personnalisé
 AUTH_USER_MODEL ='authentication.User'
 # Page par defaut en cas de non authentification
 LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'home'
+# configurez le chemin pour le stockage des photos
+MEDIA_URL ='/media/'
+MEDIA_ROOT = BASE_DIR.joinpath('media/')
+# definir un autre repertoire static a la racine
+STATICFILES_DIRS = [
+    BASE_DIR.joinpath('static')
+
+]

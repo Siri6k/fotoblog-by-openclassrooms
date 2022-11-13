@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+   <h2>Modifier votre photo de profile</h2>
+    <div class="last-photo">
+        {% if user.profile_photo %}
+        <img src="{{ request.user.profile_photo.url }}">
+        {% endif %}
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit">Changer</button>
+    </form>
+{% endblock %}
