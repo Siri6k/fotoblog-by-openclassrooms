@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from . import forms
 from . import models
 from django.forms import formset_factory
@@ -13,7 +13,10 @@ def home(request):
                   'blog/home.html',
                   context={'photos':photos,
                            'blogs': blogs})
+
 @login_required
+# restreindre l ajout de photo
+@permission_required('blog.add_photo')
 def photo_upload(request):
     form = forms.PhotoForm()
     if request.method == 'POST':
@@ -30,6 +33,8 @@ def photo_upload(request):
                   context = {'form': form})
 
 @login_required
+@permission_required(['blog.add_photo',
+                      'blog.add_blog'])
 def blog_and_photo_upload(request):
     blog_form = forms.BlogForm
     photo_form = forms.PhotoForm
@@ -55,6 +60,7 @@ def blog_and_photo_upload(request):
     return render(request,
                   'blog/create_blog_post.html',
                   context=context)
+
 @login_required
 def view_blog(request, blog_id):
     blog = get_object_or_404(models.Blog,
@@ -62,7 +68,9 @@ def view_blog(request, blog_id):
     return render(request,
                   'blog/blog_view.html',
                   {'blog': blog})
+
 @login_required
+@permission_required('blog.change_blog')
 def edit_blog(request, blog_id):
     blog = get_object_or_404(models.Blog,
                              id=blog_id)
@@ -87,6 +95,7 @@ def edit_blog(request, blog_id):
                   context= context)
 
 @login_required
+@permission_required('blog.add_photo')
 def create_multiple_photos(request):
     PhotoFormSet = formset_factory(forms.PhotoForm,
                                    extra=5)

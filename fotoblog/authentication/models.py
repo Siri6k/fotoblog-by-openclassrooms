@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Group
 from django.db import models
 
 # Create your models here.
@@ -14,3 +14,17 @@ class User(AbstractUser):
     role = models.CharField(max_length=30,
                             choices=ROLE_CHOICES,
                             verbose_name='Rôle')
+
+    follows = models.ManyToManyField('self',
+                                     limit_choices_to={'role': CREATOR},
+                                     symmetrical=False,
+                                     verbose_name='Suit',)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.role == self.CREATOR:
+            group = Group.objects.get(name='creators')
+            group.user_set.add(self)
+        elif self.role == self.SUBSCRIBER:
+            group = Group.objects.get(name='subscribers')
+            group.user_set.add(self)
