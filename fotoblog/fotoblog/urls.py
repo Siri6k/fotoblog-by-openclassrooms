@@ -28,6 +28,13 @@ urlpatterns = [
     # visualisation d'un bilet de blog
     path('blog/<int:blog_id>/',
          blog.views.view_blog, name="view-blog"),
+    # modifier ou supprimer un billet de blog
+    path('blog/<int:blog_id>/edit/',
+         blog.views.edit_blog, name="edit-blog"),
+    # publier multiples photos a la fois
+    path('photo/upload-multiple/',
+         blog.views.create_multiple_photos,
+         name="create-multiple-photos"),
 ]
 # ajoutez les medias
 if settings.DEBUG:
