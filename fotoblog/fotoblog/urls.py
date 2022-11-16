@@ -35,6 +35,10 @@ urlpatterns = [
     path('photo/upload-multiple/',
          blog.views.create_multiple_photos,
          name="create-multiple-photos"),
+    # relation plusieurs a plusieurs
+    path('blog/follow-users/',
+         blog.views.follow_users,
+         name = "follow-users"),
 ]
 # ajoutez les medias
 if settings.DEBUG:
