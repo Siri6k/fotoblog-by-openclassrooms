@@ -12,6 +12,7 @@
                         <img src="{{ instance.photo.image.url }}">
                     </p>
                     <p><strong>Ecrit par: {{ instance.contributors.all|join:", " }}</strong></p>
+                    <p><strong>{{ instance.date_created|get_posted_at_display }}</strong></p>
                 </a>
             </div>
 
@@ -19,8 +20,8 @@
             <div class="post">
                 <img src="{{ instance.image.url }}">
                 <p>{{ instance.caption }}</p>
-                <p><strong>Prise par: {{ instance.uploader }}</strong></p>
-                <p><strong>{{ instance.date_created }}</strong></p>
+                <p><strong>Prise par: {% get_poster_display instance.uploader %}</strong></p>
+                <p><strong>{{ instance.date_created|get_posted_at_display }}</strong></p>
             </div>
 
         {% endif %}
