@@ -7,4 +7,4 @@ class PhotoAdmin(admin.ModelAdmin):
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author']
+    list_display = ['title', ]
