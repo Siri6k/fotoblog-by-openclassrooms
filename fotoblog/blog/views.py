@@ -3,12 +3,21 @@ from django.contrib.auth.decorators import login_required, permission_required
 from . import forms
 from . import models
 from django.forms import formset_factory
+from django.db.models import Q
 # Create your views here.
 #restreinndre l accès qu aux utilisateur authentifiés
 @login_required
 def home(request):
-    photos = models.Photo.objects.all()
-    blogs = models.Blog.objects.all()
+
+    blogs = models.Blog.objects.filter(
+        Q(contributors__in=request.user.follows.all()) | Q(starred=True)
+    )
+    photos = models.Photo.objects.filter(
+        uploader__in=request.user.follows.all()
+    )\
+        .exclude(
+        blog__in=blogs
+    )
     return render(request,
                   'blog/home.html',
                   context={'photos':photos,
