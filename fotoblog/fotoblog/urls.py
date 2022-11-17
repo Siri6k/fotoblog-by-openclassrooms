@@ -39,6 +39,10 @@ urlpatterns = [
     path('blog/follow-users/',
          blog.views.follow_users,
          name = "follow-users"),
+    # creer un flux avec les photos
+    path('blog/photo_feed/',
+         blog.views.photo_feed,
+         name = "photo-feed"),
 ]
 # ajoutez les medias
 if settings.DEBUG:

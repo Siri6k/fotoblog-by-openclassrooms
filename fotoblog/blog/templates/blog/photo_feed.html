@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load blog_extras %}
+{% block content %}
+    <h2>Photos</h2>
+    <div class="grid-container">
+        {% for photo in photos %}
+            {% include 'blog/partials/photo_snippet.html' with photo=photo %}
+        {% endfor %}
+    </div>
+{% endblock content %}
