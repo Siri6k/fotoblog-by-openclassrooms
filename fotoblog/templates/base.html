@@ -26,6 +26,8 @@
                 <p><a href="{% url 'change_profile_photo' %}">Changer la photo de profil</a></p>
                 <p><a href="#">Changer le mot de passe</a></p>
                 <p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+            {% else %}
+                <p><a href="{% url 'login' %}">Se connecter</a></p>
             {% endif %}
         </div>
         <div class="main">

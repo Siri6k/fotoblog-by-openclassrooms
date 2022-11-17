@@ -4,6 +4,7 @@ from . import forms
 from . import models
 from django.forms import formset_factory
 from django.db.models import Q
+from itertools import chain
 # Create your views here.
 #restreinndre l accès qu aux utilisateur authentifiés
 @login_required
@@ -18,10 +19,32 @@ def home(request):
         .exclude(
         blog__in=blogs
     )
+    # triez les deux blogs and photos
+    blogs_and_photos = sorted(
+        chain(blogs, photos),
+        # fonction lamabda qui trie selon la deta de creation
+        key=lambda instance: instance.date_created,
+        # classe en ordre decroissant du plus recent au plus ancien
+        reverse=True
+    )
+    context = {'blogs_and_photos': blogs_and_photos}
     return render(request,
                   'blog/home.html',
-                  context={'photos':photos,
-                           'blogs': blogs})
+                  context=context)
+
+@login_required
+def photo_feed(request):
+
+    photos = models.Photo.objects.filter(
+        Q(uploader__in=request.user.follows.all())
+    )\
+        .order_by('-date_created')
+    context = {'photos':photos}
+    return render(request,
+                  'blog/photo_feed.html',
+                  context=context)
+
+
 
 @login_required
 # restreindre l ajout de photo
@@ -131,9 +154,9 @@ def follow_users(request):
     form = forms.FollowUsersForm(instance=request.user)
     if request.method == 'POST':
         form = forms.FollowUsersForm(request.POST,
-                               instance=request.user)
+                                     instance=request.user)
         if form.is_valid():
-            form.save
+            form.save()
             return redirect('home')
     return render(request,
                   'blog/follow_users_form.html',
