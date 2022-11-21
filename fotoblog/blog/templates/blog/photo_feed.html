@@ -3,8 +3,32 @@
 {% block content %}
     <h2>Photos</h2>
     <div class="grid-container">
-        {% for photo in photos %}
+        {% for photo in page_obj %}
             {% include 'blog/partials/photo_snippet.html' with photo=photo %}
         {% endfor %}
     </div>
+
+         <div class="pagination">
+        <span>
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}">
+                    👈
+                </a>
+            {% endif %}
+        <span>
+            Page {{ page_obj.number }} sur
+            {{ page_obj.paginator.num_pages }}.
+        </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">
+                    👉
+                </a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">
+                    🤚
+                </a>
+            {% endif %}
+        </span>
+        </div>
+
 {% endblock content %}

@@ -5,6 +5,8 @@ from . import models
 from django.forms import formset_factory
 from django.db.models import Q
 from itertools import chain
+from django.core.paginator import Paginator
+
 # Create your views here.
 #restreinndre l accès qu aux utilisateur authentifiés
 @login_required
@@ -27,7 +29,13 @@ def home(request):
         # classe en ordre decroissant du plus recent au plus ancien
         reverse=True
     )
-    context = {'blogs_and_photos': blogs_and_photos}
+    #context = {'blogs_and_photos': blogs_and_photos}
+    #pagination
+    paginator = Paginator(blogs_and_photos, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'page_obj': page_obj}
+
     return render(request,
                   'blog/home.html',
                   context=context)
@@ -39,7 +47,12 @@ def photo_feed(request):
         Q(uploader__in=request.user.follows.all())
     )\
         .order_by('-date_created')
-    context = {'photos':photos}
+    # pagination
+    paginator = Paginator(photos, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'page_obj': page_obj}
+
     return render(request,
                   'blog/photo_feed.html',
                   context=context)
